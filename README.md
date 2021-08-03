@@ -5,7 +5,7 @@
 
 Basic Assembler and Simulator programs for a simplified MIPS architecture processor
 
-The Project implements simulation of Arithmetic, Branching, and I/O instructions, Interrupts derived from devices and user-generated,
+The Simulator implements Arithmetic, Branching, and I/O instructions, Interrupts derived from devices and user-generated,
 and interconnection between CPU and I/O devices  
 
 The project is comprised of 3 parts: Assembly Files, Assembler program, and Simulator Program.
@@ -14,7 +14,7 @@ Both the Assembler and Simulator are implemented in C language
 
 ## FLOW
 
-1. The Assembler recieves an Assembly file which its content corresspondes to the CPU's ISA (further description in '_ISA & Memory_').
+1. The Assembler recieves an Assembly file which its content corresspond to the CPU's ISA (further description in '_ISA & Memory_').
 For your Convenience, several Assembly files with different functionality are provided.
 2. The Assembler translates the Assembly language to machine lanagues instructions and outputs two txt files - Instrucion Memory
 and Data Memory files
@@ -28,8 +28,6 @@ and simulates a fetch-decode-excecute loop according to the input files
 
 The files which are marked in red are the input files from the user and the files marked in green will
 be created automatically by the Assembler and Simulator programs (descritption for each file is provided in the '_files_' segment below)
-
-
 
 
 
@@ -62,20 +60,73 @@ The CPU has two instructions encoding formats:
 
 ![image](https://user-images.githubusercontent.com/72262159/128007915-c94f7b1f-3e34-47be-a30f-2085c6e23a82.png)
 
-**Instructions Set and Econding**
+**Instructions Set and Enconding**
 
 ![image](https://user-images.githubusercontent.com/72262159/128018301-f9f1e0f8-1810-4cd5-8bc0-ded6247fa479.png)
 
 
+## I/O DEVICES
+The CPU is connected to the following I/O devices - leds, screen, timer, and hard-drive
+
+The proccessor is a dedicated I/O processor - each device has its own I/O register and the CPU is able to communicate with these registers using the 'in' and 'out' I/O commands. below are the I/O registers and their encoding:
+
+![image](https://user-images.githubusercontent.com/72262159/128021392-f5402533-8c17-48aa-91c3-c535c1e7bc7f.png)
+
+**Computer Screen**
+
+The CPU is connected to a 352x288 monochromatic computer screen. each pixel is repreented with 8 bits where 0 is black and 256 is white
+
+ The screen has a 352x288 frame buffer which at any time will store the current screen state. at the beginning all values are set to 0
+
+monitorx register contains the x coordinate where the cpu will change it's pixel value. equivallently to monitory register and y coordinate
+the monitordata register holds the pixel value which the CPU wishes to write
+
+**Timer**
+when changing the timerenable register value to 1 - the timer is activated. in each clock cycle where timer is enabled - timercurrent register's value is
+incremented by 1
+
+**Hard Drive**
+
+The CPU is connected to 64KB hard-drive, comprised of 128 512-bytes sectors. The CPU uses DMA to copy a sector from main memory to disk and vice versa
+
+It takes 1024 clock cycles to copy a sector which during this time the diskstatus register value will be 1 (indicating hard-drive is busy).  Upon reciving write/read command, the Assembly code must assure that the hard-drive is free to recieve a new command by checking the diskstatus register. 
+after 1024 clock cycles, diskcmd and diskstatus registers' values will be set to zero
+
+
+
+## INTERRUPTS
+The CPU supports 3 types of interrupts, as detailed below:
+
+**irq0 - Timer**
+when timercurrent=timermax, irqstatus0 is set to 1 and timercurrent is reset to 0
+
+**irq1 - Hard Drive**
+when DMA is done copying a sector - irqstatus is set to 1
+
+**irq2 - user-generated**
+The simulator is provided by the user with the irq2in.txt file which specifies at which clock cycles an interrupt should occur
+
+before carrying out each machine language instruction, the CPU examines the signals:
+irq = (irq0enable & irq0status) | (irq1enable & irq1status) | (irq2enable & irq2status)
+if irq  == 1, and the CPU is not currently using its interrupt service routine, the proccessor handles the signal, by moving the PC register to the address
+stored in the irqhandler register while saving the original PC value in the irqreturn register
+The Assembly code should reset the irqstatus registers.
+terminating the interrupt service is done with the reti command, which will result in PC=irqreturn
+
+
+## FILES
+At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instuction according to the PC, decodes it, and updates register's state and other internal consitutes of the program. 
+
+The Simulator program will recieve the following files as Command Line Parameters:
+
+
+
+Note that changing the command line parameters are  
 
 
 
 
 
-**INTERRUPTS**
-
-**I/O DEVICES**
-The CPU is connected to multiple I/O devices - leds, screen, and hard-drive.
 
 
 
