@@ -1,7 +1,7 @@
 
 # Computer Architecture Course - Final Project - CPU-Simulator
 
-### SUMMARY
+## SUMMARY
 
 Basic Assembler and Simulator programs for a simplified MIPS architecture processor
 
@@ -12,7 +12,7 @@ The project is comprised of 3 parts: Assembly Files, Assembler program, and Simu
 Both the Assembler and Simulator are implemented in C language
 
 
-### FLOW
+## FLOW
 
 1. The Assembler recieves an Assembly file which its content corresspondes to the CPU's ISA (further description in '_ISA & Memory_').
 For your Convenience, several Assembly files with different functionality are provided.
@@ -33,12 +33,12 @@ be created automatically by the Assembler and Simulator programs (descritption f
 
 
 
-### BASIC SPECIFICATION
+## BASIC SPECIFICATION
 1. Clock Rate - 1024 cycles per second
 2. Assembly Instrucions which utilize the $imm register - takes 2 cycles to complete; other Instrucions takes 1 cycle.
 3. The CPU executes only a single instruction at a time
 
-### CPU REGISTERS
+## CPU REGISTERS
 
 The CPU contains 16 32-bit registers, as seen below:
 
@@ -55,10 +55,12 @@ Memory is divided between Instrucion Meomry and Data Memory:
 
 The CPU has two instructions encoding formats:
   1. Instuctions which utilies the $imm register:
+ 
 ![image](https://user-images.githubusercontent.com/72262159/128008429-2065a264-f0cd-4f3d-838b-80675e405c08.png)
+
   2. Other Instructions:
 
->![image](https://user-images.githubusercontent.com/72262159/128007915-c94f7b1f-3e34-47be-a30f-2085c6e23a82.png)
+![image](https://user-images.githubusercontent.com/72262159/128007915-c94f7b1f-3e34-47be-a30f-2085c6e23a82.png)
 
 **Instructions Set and Econding**
 
