@@ -1,6 +1,7 @@
 
 # Computer Architecture Course - Final Project - CPU-Simulator
 
+
 ## SUMMARY
 
 Basic Assembler and Simulator programs for a simplified MIPS architecture processor
@@ -11,14 +12,16 @@ and interconnection between CPU and I/O devices
 The project is comprised of 3 parts: Assembly Files, Assembler program, and Simulator Program.
 Both the Assembler and Simulator are implemented in C language
 
+Lines of code: ~1800
+
 
 ## FLOW
 
-1. The Assembler recieves an Assembly file which its content corresspond to the CPU's ISA (further description in '_ISA & Memory_').
+1. The Assembler recieves an Assembly file which its content corresspond to the CPU's ISA (further description in '_ISA & Memory_' section)
 For your Convenience, several Assembly files with different functionality are provided.
-2. The Assembler translates the Assembly language to machine lanagues instructions and outputs two txt files - Instrucion Memory
+2. The Assembler translates the Assembly language to machine language instructions and outputs two txt files - Instrucion Memory
 and Data Memory files
-3. The Simulator recieves the output from the Assembler along with additional input files (further description in the '_files_' segment below)
+3. The Simulator recieves the output from the Assembler along with additional input files (further description in the '_files_' section)
 and simulates a fetch-decode-excecute loop according to the input files
 4. The Simulator generates txt files which provide overall extensive information regarding CPU and I/O devices state at each cycle 
  
@@ -36,17 +39,19 @@ be created automatically by the Assembler and Simulator programs (descritption f
 2. Assembly Instrucions which utilize the $imm register - takes 2 cycles to complete; other Instrucions takes 1 cycle.
 3. The CPU executes only a single instruction at a time
 
+
 ## CPU REGISTERS
 
 The CPU contains 16 32-bit registers, as seen below:
 
   ![image](https://user-images.githubusercontent.com/72262159/128005564-030d1883-0201-4df7-bd23-88635a6d8e4a.png)
 
+
 ## ISA & MEMORY
 
-Memory is divided between Instrucion Meomry and Data Memory:
-  1. Instruction memory is comprised of 1024 20-bit instructions (1024 instrucions encoded to machine language)
-  2. Data Memory is comprised of 4096 32-bit memory addressess
+Memory is divided between Instrucion Memory and Data Memory:
+  1. Instruction memory is comprised of 1024 20-bit instructions (1024 instructions encoded to machine language)
+  2. Data Memory is comprised of 4096 32-bit memory addresses
 
 
 **Assembly Code to Machine Language**
@@ -68,7 +73,7 @@ The CPU has two instructions encoding formats:
 ## I/O DEVICES
 The CPU is connected to the following I/O devices - leds, screen, timer, and hard-drive
 
-The proccessor is a dedicated I/O processor - each device has its own I/O register and the CPU is able to communicate with these registers using the 'in' and 'out' I/O commands. below are the I/O registers and their encoding:
+The proccessor is a dedicated I/O processor - each device has its own I/O register and the CPU is able to communicate with these registers using the 'in' and 'out' I/O commands. below are the I/O registers and their encodings:
 
 ![image](https://user-images.githubusercontent.com/72262159/128021392-f5402533-8c17-48aa-91c3-c535c1e7bc7f.png)
 
@@ -78,10 +83,11 @@ The CPU is connected to a 352x288 monochromatic computer screen. each pixel is r
 
  The screen has a 352x288 frame buffer which at any time will store the current screen state. at the beginning all values are set to 0
 
-monitorx register contains the x coordinate where the cpu will change it's pixel value. equivallently to monitory register and y coordinate
+monitorx register contains the x coordinate where the cpu will change it's pixel value. equivallently to monitory register and y coordinate.
 the monitordata register holds the pixel value which the CPU wishes to write
 
 **Timer**
+
 when changing the timerenable register value to 1 - the timer is activated. in each clock cycle where timer is enabled - timercurrent register's value is
 incremented by 1
 
@@ -98,12 +104,15 @@ after 1024 clock cycles, diskcmd and diskstatus registers' values will be set to
 The CPU supports 3 types of interrupts, as detailed below:
 
 **irq0 - Timer**
+
 when timercurrent=timermax, irqstatus0 is set to 1 and timercurrent is reset to 0
 
 **irq1 - Hard Drive**
+
 when DMA is done copying a sector - irqstatus is set to 1
 
 **irq2 - user-generated**
+
 The simulator is provided by the user with the irq2in.txt file which specifies at which clock cycles an interrupt should occur
 
 before carrying out each machine language instruction, the CPU examines the signals:
@@ -115,13 +124,30 @@ terminating the interrupt service is done with the reti command, which will resu
 
 
 ## FILES
-At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instuction according to the PC, decodes it, and updates register's state and other internal consitutes of the program. 
+At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instuction according to the PC, decodes it, and updates registers' state and other internal constitues of the program
 
-The Simulator program will recieve the following files as Command Line Parameters:
+The Simulator program will recieve the following files (files' path name) as command line arguments:
+
+imemin.txt dmemin.txt diskin.txt irq2in.txt dmemout.txt regout.txt
+trace.txt hwregtrace.txt cycles.txt leds.txt monitor.txt monitor.yuv diskout.txt
+
+1. imemin.txt - 
 
 
 
-Note that changing the command line parameters are  
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
