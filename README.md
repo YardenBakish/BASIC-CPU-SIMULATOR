@@ -5,18 +5,25 @@
 
 ## TABLE OF CONTENTS
 
->[ SUMMARY. ](#desc)
->[ FLOW ](#usage)
->[ BASIC SPECIFICATION ](#usage)
->[ CPU REGISTERS. ](#usage)
->[ Usage tips. ](#usage)
->[ Usage tips. ](#usage)
+>[ Summary ](#sum)
 
+>[ Flow ](#flo)
 
+>[ Basic Specification ](#spec)
 
+>[ CPU Registers ](#cpu_reg)
 
+>[ ISA & Memory ](#isa)
 
+>[ I/O Devices ](#I/O)
 
+>[ Interrupts ](#IRQ)
+
+>[ Files ](#files)
+
+>[ Assembly Code ](#asm)
+
+<a name="sum"></a>
 ## SUMMARY
 
 Basic Assembler and Simulator programs for a simplified MIPS Architecture Processor
@@ -29,7 +36,7 @@ Both the Assembler and Simulator are implemented in C language
 
 Lines of code: ~1800
 
-
+<a name="flo"></a>
 ## FLOW
 
 1. The Assembler recieves an Assembly file which its content corresspond to the CPU's ISA (further description in '_ISA & Memory_' section)
@@ -46,20 +53,20 @@ and simulates a fetch-decode-excecute loop according to the input files
 
 The files which are marked in red are the input files from the user and the files marked in green will
 be created automatically by the Assembler and Simulator programs (descritption for each file is provided in the '_files_' segment below)
-
+<a name="spec"></a>
 ## BASIC SPECIFICATION
 1. Clock Rate - 1024 cycles per second
 2. Assembly Instrucions which utilize the $imm register - takes 2 cycles to complete; other Instrucions takes 1 cycle.
 3. The CPU executes only a single instruction at a time
 
-
+<a name="cpu_reg"></a>
 ## CPU REGISTERS
 
 The CPU contains 16 32-bit registers, as seen below:
 
   ![image](https://user-images.githubusercontent.com/72262159/128005564-030d1883-0201-4df7-bd23-88635a6d8e4a.png)
 
-
+<a name="isa"></a>
 ## ISA & MEMORY
 
 Memory is divided between Instrucion Memory and Data Memory:
@@ -82,7 +89,7 @@ The CPU has two instructions encoding formats:
 
 ![image](https://user-images.githubusercontent.com/72262159/128018301-f9f1e0f8-1810-4cd5-8bc0-ded6247fa479.png)
 
-
+<a name="I/O"></a>
 ## I/O DEVICES
 The CPU is connected to the following I/O devices - leds, screen, timer, and hard-drive
 
@@ -112,7 +119,7 @@ It takes 1024 clock cycles to copy a sector which during this time the diskstatu
 after 1024 clock cycles, diskcmd and diskstatus registers' values will be set to zero
 
 
-
+<a name="IRQ"></a>
 ## INTERRUPTS
 The CPU supports 3 types of interrupts, as detailed below:
 
@@ -135,7 +142,7 @@ stored in the irqhandler register while saving the original PC value in the irqr
 The Assembly code should reset the irqstatus registers.
 terminating the interrupt service is done with the reti command, which will result in PC=irqreturn
 
-
+<a name="files"></a>
 ## FILES
 At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instuction according to the PC, decodes it, and updates registers' state and other internal constitues of the program
 
@@ -164,8 +171,8 @@ where CYCLE is the current time cycle, READ/WRITE is depandant on the operation 
 11. **diskout.txt** (output) - contains the disk's data at the end of the simulation.
 
 
-
-## ASSEMBLY FILES
+<a name="asm"></a>
+## ASSEMBLY CODE
 As mentioned, the assembler program translates assembly file to machine language instructions. data can be stored into memory using the '.word (address) (data)' special command
 
 Each assembly line of code must contain all of the 5 parameters seperated by commas, for example:
