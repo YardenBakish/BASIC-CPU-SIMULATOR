@@ -45,13 +45,15 @@ and Data Memory files
 3. The Simulator receives the output from the Assembler along with additional input files (further description in the '_files_' section)
 and simulates a fetch-decode-execute loop according to the input files
 4. The Simulator generates txt files which provide overall extensive information regarding CPU and I/O devices state at each cycle 
- 
+
  
 
 >![image](https://user-images.githubusercontent.com/72262159/128005071-bbc5d971-dd4c-4594-9bd3-bb8b59b24df5.png)
 
 The files which are marked in red are the input files from the user and the files marked in green will
 be created automatically by the Assembler and Simulator programs (description for each file is provided in the '_files_' segment below)
+
+At your convenience, several Assembly files with different functionalities have been provided and further detailed in the '_Assembly_Files_Description.md_' file
 <a name="spec"></a>
 ## BASIC SPECIFICATION
 1. Clock Rate - 1024 cycles per second
