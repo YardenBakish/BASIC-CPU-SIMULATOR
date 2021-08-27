@@ -2,9 +2,24 @@
 # Computer Architecture Course - Final Project - CPU-Simulator
 
 
+
+## TABLE OF CONTENTS
+
+>[ SUMMARY. ](#desc)
+>[ FLOW ](#usage)
+>[ BASIC SPECIFICATION ](#usage)
+>[ CPU REGISTERS. ](#usage)
+>[ Usage tips. ](#usage)
+>[ Usage tips. ](#usage)
+
+
+
+
+
+
 ## SUMMARY
 
-Basic Assembler and Simulator programs for a simplified MIPS architecture processor
+Basic Assembler and Simulator programs for a simplified MIPS Architecture Processor
 
 The Simulator implements Arithmetic, Branching, and I/O instructions, Interrupts derived from devices and user-generated,
 and interconnection between CPU and I/O devices  
@@ -31,8 +46,6 @@ and simulates a fetch-decode-excecute loop according to the input files
 
 The files which are marked in red are the input files from the user and the files marked in green will
 be created automatically by the Assembler and Simulator programs (descritption for each file is provided in the '_files_' segment below)
-
-
 
 ## BASIC SPECIFICATION
 1. Clock Rate - 1024 cycles per second
@@ -131,7 +144,57 @@ The Simulator program will recieve the following files (files' path name) as com
 imemin.txt dmemin.txt diskin.txt irq2in.txt dmemout.txt regout.txt
 trace.txt hwregtrace.txt cycles.txt leds.txt monitor.txt monitor.yuv diskout.txt
 
-1. imemin.txt - 
+1. **imemin.txt** (input) - contains Instrucion Memory (machine language instructions). each row is a memory address and contains an instruction comprised of 5 hex digits. if the number of rows is less than 1024, we asseume that the rest of the data is uninitialized
+2. **dmemin.txt** (input) - contains Data Memory. each row contains data comprised of 8 hex digits. Data is stored in memory using a special command which can used in the assembly program -  **.word (address) (data)**
+3. **diskin.txt** (input) - this file has the same format as 'dmemin.txt' and represents the data stored in the disk when the program is excecuted
+4. **irq2in.txt** (input) - specifices in which clock cycles an interrupt should occur (can contain nothing)
+5. **dmemout.txt** (output) - this file specifies the information stored on the RAM when the excecutaion is finished. has the same format as 'dmemout.txt'
+6. **regout.txt** (output) - contains the cpu's registers' content at the end of the simulation
+7. **trace.txt** (output) - This file contains a line of text for each instruction excecuted by the simulator, in the following format:
+
+**PC INST R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15**
+each field is printed with hex digits. the PC is the Program Counter, INST is the encoded opcode, and the following are the register's content prior to excecuting the current command (with sign extension)
+
+8. **hwregtrace.txt** (output) - contains a line of text for each I/O operation, in the following format:
+**CYCLE READ/WRITE NAME DATA**
+where CYCLE is the current time cycle, READ/WRITE is depandant on the operation excecuted, NAME is the HW register's name, and DATA is the data written/ read 
+
+9. **cycles.txt** (output) -  contains two lines, one with the overall time cycles taken to simulate the program and the second with the overall machine instructions excecuted
+10. **monitor.txt** (output) - contains the pixel values at the end of the simulation on the screen. each row contains a single pixel's value represented with two hex digits. The screen's overview is top-down, left-right.
+11. **diskout.txt** (output) - contains the disk's data at the end of the simulation.
+
+
+
+## ASSEMBLY FILES
+As mentioned, the assembler program translates assembly file to machine language instructions. data can be stored into memory using the '.word (address) (data)' special command
+
+Each assembly line of code must contain all of the 5 parameters seperated by commas, for example:
+```asm
+add $t2, $t1, $t0, 0   # $t2 = $t1 + $t0
+add $t1, $t1, $imm, 2  # $t1 = $t1 + 2
+add $t1, $imm, $imm, 2 # $t1 = 2 + 2
+```
+
+In addition, the assembly files can contain LABELS. As in MIPS, A label can be placed at the beginning of a statement and can be assigned the current value of the active location counter and be served as an instruction operand. The following examplifies proper usage of Labels:
+```asm
+>bne $imm, $t0, $t1, L1      # if ($t0 != $t1) goto L1 (reg1 = address of L1)
+>add $t2, $t2, $imm, 1       # $t2 = $t2 + 1 (reg1 = 1)
+>beq $imm, $zero, $zero, L2  # unconditional jump to L2 (reg1 = address L2)
+L1:
+>sub $t2, $t2, $imm, 1 # $t2 = $t2 – 1 (reg1 = 1)
+L2:
+>add $t1, $zero, $imm, L3    # $t1 = address of L3 (reg1 = address L3)
+>beq $t1, $zero, $zero, 0    # jump to the address specified in t1 (reg1 = 0)
+L3:
+>jal $imm, $zero, $zero, L4 # function call L4, save return addr in $ra
+>halt $zero, $zero, $zero, 0 # halt execution
+L4:
+>beq $ra, $zero, $zero, 0 # return from function in address in $ra (reg1=0)
+```
+
+Note: each label must start with an alphabet character and end with a colon
+
+The Assembler program can handle white spaces, and blank lines in the assembly files - feel free to leave blank lines, use tabs etc. the program can handle it.
 
 
 
