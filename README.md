@@ -121,19 +121,13 @@ after 1024 clock cycles, diskcmd and diskstatus registers' values will be set to
 
 <a name="IRQ"></a>
 ## INTERRUPTS
-The CPU supports 3 types of interrupts, as detailed below:
+The CPU supports 3 types of interrupts, as detailed at the table below:
 
-**irq0 - Timer**
-
-when timercurrent=timermax, irqstatus0 is set to 1 and timercurrent is reset to 0
-
-**irq1 - Hard Drive**
-
-when DMA is done copying a sector - irqstatus is set to 1
-
-**irq2 - user-generated**
-
-The simulator is provided by the user with the irq2in.txt file which specifies at which clock cycles an interrupt should occur
+| Name  | Device  |  Description |
+| ------------ | ------------ | ------------ |
+| irq0  | Timer  | when timercurrent=timermax, 'irq0status' is set to 1 and timercurrent is reset to 0  |
+|  irq1 |  Hard-Disk |  when DMA is done copying a sector - 'irq1status' is set to 1 |
+| irq2  | User-Generated  |  The simulator is provided by the user with the irq2in.txt file which specifies at which clock cycles an interrupt should occur |  |
 
 before carrying out each machine language instruction, the CPU examines the signals:
 irq = (irq0enable & irq0status) | (irq1enable & irq1status) | (irq2enable & irq2status)
@@ -151,24 +145,20 @@ The Simulator program will recieve the following files (files' path name) as com
 imemin.txt dmemin.txt diskin.txt irq2in.txt dmemout.txt regout.txt
 trace.txt hwregtrace.txt cycles.txt leds.txt monitor.txt monitor.yuv diskout.txt
 
-1. **imemin.txt** (input) - contains Instrucion Memory (machine language instructions). each row is a memory address and contains an instruction comprised of 5 hex digits. if the number of rows is less than 1024, we asseume that the rest of the data is uninitialized
-2. **dmemin.txt** (input) - contains Data Memory. each row contains data comprised of 8 hex digits. Data is stored in memory using a special command which can used in the assembly program -  **.word (address) (data)**
-3. **diskin.txt** (input) - this file has the same format as 'dmemin.txt' and represents the data stored in the disk when the program is excecuted
-4. **irq2in.txt** (input) - specifices in which clock cycles an interrupt should occur (can contain nothing)
-5. **dmemout.txt** (output) - this file specifies the information stored on the RAM when the excecutaion is finished. has the same format as 'dmemout.txt'
-6. **regout.txt** (output) - contains the cpu's registers' content at the end of the simulation
-7. **trace.txt** (output) - This file contains a line of text for each instruction excecuted by the simulator, in the following format:
-
-**PC INST R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15**
-each field is printed with hex digits. the PC is the Program Counter, INST is the encoded opcode, and the following are the register's content prior to excecuting the current command (with sign extension)
-
-8. **hwregtrace.txt** (output) - contains a line of text for each I/O operation, in the following format:
-**CYCLE READ/WRITE NAME DATA**
-where CYCLE is the current time cycle, READ/WRITE is depandant on the operation excecuted, NAME is the HW register's name, and DATA is the data written/ read 
-
-9. **cycles.txt** (output) -  contains two lines, one with the overall time cycles taken to simulate the program and the second with the overall machine instructions excecuted
-10. **monitor.txt** (output) - contains the pixel values at the end of the simulation on the screen. each row contains a single pixel's value represented with two hex digits. The screen's overview is top-down, left-right.
-11. **diskout.txt** (output) - contains the disk's data at the end of the simulation.
+|File   |  Type |  Description |
+| ------------ | ------------ | ------------ |
+|  **imemin.txt** | input  | contains Instrucion Memory (machine language instructions). each row is a memory address and contains an instruction comprised of 5 hex digits. if the number of rows is less than 1024, we asseume that the rest of the data is uninitialized  |
+|  **dmemin.txt** | input  |  contains Data Memory. each row contains data comprised of 8 hex digits. Data is stored in memory using a special command which can used in the assembly program -  **.word (address) (data)**  |
+| **diskin.txt**  | input  | this file has the same format as 'dmemin.txt' and represents the data stored in the disk when the program is excecuted  |
+|   **irq2in.txt** | input  |  specifices in which clock cycles an interrupt should occur (can contain nothing) |
+|  **dmemout.txt** |  output | this file specifies the information stored on the RAM when the excecutaion is finished. has the same format as 'dmemout.txt'  |
+|  **regout.txt**  | output  | contains the cpu's registers' content at the end of the simulation  |
+| **trace.txt**  |  output | This file contains a line of text for each instruction excecuted by the simulator, in the following format: **PC INST R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15**. each field is printed with hex digits. the PC is the Program Counter, INST is the encoded opcode, and the following are the register's content prior to excecuting the current command (with sign extension)  |
+|  **hwregtrace.txt**  |  output | contains a line of text for each I/O operation, in the following format: **CYCLE READ/WRITE NAME DATA**. where CYCLE is the current time cycle, READ/WRITE is depandant on the operation excecuted, NAME is the HW register's name, and DATA is the data written/ read 
+  |
+|  **cycles.txt** | output  | contains two lines, one with the overall time cycles taken to simulate the program and the second with the overall machine instructions excecuted  |
+| **monitor.txt**  |  output |  contains the pixel values at the end of the simulation on the screen. each row contains a single pixel's value represented with two hex digits. The screen's overview is top-down, left-right. |
+|  **diskout.txt** | output  |  contains the disk's data at the end of the simulation |
 
 
 <a name="asm"></a>
