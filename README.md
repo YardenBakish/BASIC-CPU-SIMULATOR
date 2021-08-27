@@ -1,4 +1,3 @@
-
 # Computer Architecture Course - Final Project - CPU-Simulator
 
 
@@ -39,12 +38,12 @@ Lines of code: ~1800
 <a name="flo"></a>
 ## FLOW
 
-1. The Assembler recieves an Assembly file which its content corresspond to the CPU's ISA (further description in '_ISA & Memory_' section)
+1. The Assembler receives an Assembly file which its content corresponds to the CPU's ISA (further description in '_ISA & Memory_' section)
 For your Convenience, several Assembly files with different functionality are provided.
-2. The Assembler translates the Assembly language to machine language instructions and outputs two txt files - Instrucion Memory
+2. The Assembler translates the Assembly language to machine language instructions and outputs two txt files - Instruction Memory
 and Data Memory files
-3. The Simulator recieves the output from the Assembler along with additional input files (further description in the '_files_' section)
-and simulates a fetch-decode-excecute loop according to the input files
+3. The Simulator receives the output from the Assembler along with additional input files (further description in the '_files_' section)
+and simulates a fetch-decode-execute loop according to the input files
 4. The Simulator generates txt files which provide overall extensive information regarding CPU and I/O devices state at each cycle 
  
  
@@ -52,11 +51,11 @@ and simulates a fetch-decode-excecute loop according to the input files
 >![image](https://user-images.githubusercontent.com/72262159/128005071-bbc5d971-dd4c-4594-9bd3-bb8b59b24df5.png)
 
 The files which are marked in red are the input files from the user and the files marked in green will
-be created automatically by the Assembler and Simulator programs (descritption for each file is provided in the '_files_' segment below)
+be created automatically by the Assembler and Simulator programs (description for each file is provided in the '_files_' segment below)
 <a name="spec"></a>
 ## BASIC SPECIFICATION
 1. Clock Rate - 1024 cycles per second
-2. Assembly Instrucions which utilize the $imm register - takes 2 cycles to complete; other Instrucions takes 1 cycle.
+2. Assembly Instructions which utilize the $imm register - takes 2 cycles to complete; other Instructions takes 1 cycle.
 3. The CPU executes only a single instruction at a time
 
 <a name="cpu_reg"></a>
@@ -69,7 +68,7 @@ The CPU contains 16 32-bit registers, as seen below:
 <a name="isa"></a>
 ## ISA & MEMORY
 
-Memory is divided between Instrucion Memory and Data Memory:
+Memory is divided between Instruction Memory and Data Memory:
   1. Instruction memory is comprised of 1024 20-bit instructions (1024 instructions encoded to machine language)
   2. Data Memory is comprised of 4096 32-bit memory addresses
 
@@ -77,7 +76,7 @@ Memory is divided between Instrucion Memory and Data Memory:
 **Assembly Code to Machine Language**
 
 The CPU has two instructions encoding formats:
-  1. Instuctions which utilies the $imm register:
+  1. Instructions which utilizes the $imm register:
  
 ![image](https://user-images.githubusercontent.com/72262159/128008429-2065a264-f0cd-4f3d-838b-80675e405c08.png)
 
@@ -85,37 +84,37 @@ The CPU has two instructions encoding formats:
 
 ![image](https://user-images.githubusercontent.com/72262159/128007915-c94f7b1f-3e34-47be-a30f-2085c6e23a82.png)
 
-**Instructions Set and Enconding**
+**Instructions Set and Encoding**
 
 ![image](https://user-images.githubusercontent.com/72262159/128018301-f9f1e0f8-1810-4cd5-8bc0-ded6247fa479.png)
 
 <a name="I/O"></a>
 ## I/O DEVICES
-The CPU is connected to the following I/O devices - leds, screen, timer, and hard-drive
+The CPU is connected to the following I/O devices - LEDs, screen, timer, and hard-drive
 
-The proccessor is a dedicated I/O processor - each device has its own I/O register and the CPU is able to communicate with these registers using the 'in' and 'out' I/O commands. below are the I/O registers and their encodings:
+The processor is a dedicated I/O processor - each device has its own I/O register and the CPU is able to communicate with these registers using the 'in' and 'out' I/O commands. below are the I/O registers and their encodings:
 
 ![image](https://user-images.githubusercontent.com/72262159/128021392-f5402533-8c17-48aa-91c3-c535c1e7bc7f.png)
 
 **Computer Screen**
 
-The CPU is connected to a 352x288 monochromatic computer screen. each pixel is repreented with 8 bits where 0 is black and 256 is white
+The CPU is connected to a 352x288 monochromatic computer screen. each pixel is represented with 8 bits where 0 is black and 256 is white
 
  The screen has a 352x288 frame buffer which at any time will store the current screen state. at the beginning all values are set to 0
 
-monitorx register contains the x coordinate where the cpu will change it's pixel value. equivallently to monitory register and y coordinate.
-the monitordata register holds the pixel value which the CPU wishes to write
+‘monitorx’ register contains the x coordinate where the CPU will change it's pixel value. equivalently to monitory register and y coordinate.
+the ‘monitordata’ register holds the pixel value which the CPU wishes to write
 
 **Timer**
 
-when changing the timerenable register value to 1 - the timer is activated. in each clock cycle where timer is enabled - timercurrent register's value is
+when changing the ‘timerenable’ register value to 1 - the timer is activated. in each clock cycle where timer is enabled – ‘timercurren’t register's value is
 incremented by 1
 
 **Hard Drive**
 
 The CPU is connected to 64KB hard-drive, comprised of 128 512-bytes sectors. The CPU uses DMA to copy a sector from main memory to disk and vice versa
 
-It takes 1024 clock cycles to copy a sector which during this time the diskstatus register value will be 1 (indicating hard-drive is busy).  Upon reciving write/read command, the Assembly code must assure that the hard-drive is free to recieve a new command by checking the diskstatus register. 
+It takes 1024 clock cycles to copy a sector which during this time the diskstatus register value will be 1 (indicating hard-drive is busy).  Upon receiving write/read command, the Assembly code must assure that the hard-drive is free to receive a new command by checking the diskstatus register. 
 after 1024 clock cycles, diskcmd and diskstatus registers' values will be set to zero
 
 
@@ -131,32 +130,32 @@ The CPU supports 3 types of interrupts, as detailed at the table below:
 
 before carrying out each machine language instruction, the CPU examines the signals:
 irq = (irq0enable & irq0status) | (irq1enable & irq1status) | (irq2enable & irq2status)
-if irq  == 1, and the CPU is not currently using its interrupt service routine, the proccessor handles the signal, by moving the PC register to the address
+if irq  == 1, and the CPU is not currently using its interrupt service routine, the processor handles the signal, by moving the PC register to the address
 stored in the irqhandler register while saving the original PC value in the irqreturn register
 The Assembly code should reset the irqstatus registers.
-terminating the interrupt service is done with the reti command, which will result in PC=irqreturn
+terminating the interrupt service is done with the ‘reti’ command, which will result in PC=irqreturn
 
 <a name="files"></a>
 ## FILES
-At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instuction according to the PC, decodes it, and updates registers' state and other internal constitues of the program
+At the beginning of the simulation, PC=0. with each iteration, the simulator fetches the next instruction according to the PC, decodes it, and updates registers' state and other internal constituents of the program
 
-The Simulator program will recieve the following files (files' path name) as command line arguments:
+The Simulator program will receive the following files (files' path name) as command line arguments:
 
 imemin.txt dmemin.txt diskin.txt irq2in.txt dmemout.txt regout.txt
 trace.txt hwregtrace.txt cycles.txt leds.txt monitor.txt monitor.yuv diskout.txt
 
 |File   |  Type |  Description |
 | ------------ | ------------ | ------------ |
-|  **imemin.txt** | input  | contains Instrucion Memory (machine language instructions). each row is a memory address and contains an instruction comprised of 5 hex digits. if the number of rows is less than 1024, we asseume that the rest of the data is uninitialized  |
+|  **imemin.txt** | input  | contains Instruction Memory (machine language instructions). each row is a memory address and contains an instruction comprised of 5 hex digits. if the number of rows is less than 1024, we assume that the rest of the data is uninitialized  |
 |  **dmemin.txt** | input  |  contains Data Memory. each row contains data comprised of 8 hex digits. Data is stored in memory using a special command which can used in the assembly program -  **.word (address) (data)**  |
-| **diskin.txt**  | input  | this file has the same format as 'dmemin.txt' and represents the data stored in the disk when the program is excecuted  |
-|   **irq2in.txt** | input  |  specifices in which clock cycles an interrupt should occur (can contain nothing) |
-|  **dmemout.txt** |  output | this file specifies the information stored on the RAM when the excecutaion is finished. has the same format as 'dmemout.txt'  |
-|  **regout.txt**  | output  | contains the cpu's registers' content at the end of the simulation  |
-| **trace.txt**  |  output | This file contains a line of text for each instruction excecuted by the simulator, in the following format: **PC INST R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15**. each field is printed with hex digits. the PC is the Program Counter, INST is the encoded opcode, and the following are the register's content prior to excecuting the current command (with sign extension)  |
-|  **hwregtrace.txt**  |  output | contains a line of text for each I/O operation, in the following format: **CYCLE READ/WRITE NAME DATA**. where CYCLE is the current time cycle, READ/WRITE is depandant on the operation excecuted, NAME is the HW register's name, and DATA is the data written/ read 
+| **diskin.txt**  | input  | this file has the same format as 'dmemin.txt' and represents the data stored in the disk when the program is executed  |
+|   **irq2in.txt** | input  |  specifies in which clock cycles an interrupt should occur (can contain nothing) |
+|  **dmemout.txt** |  output | this file specifies the information stored on the RAM when the execution is finished. has the same format as 'dmemout.txt'  |
+|  **regout.txt**  | output  | contains the CPU’s registers' content at the end of the simulation  |
+| **trace.txt**  |  output | This file contains a line of text for each instruction executed by the simulator, in the following format: **PC INST R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15**. each field is printed with hex digits. the PC is the Program Counter, INST is the encoded opcode, and the following are the register's content prior to executing the current command (with sign extension)  |
+|  **hwregtrace.txt**  |  output | contains a line of text for each I/O operation, in the following format: **CYCLE READ/WRITE NAME DATA**. where CYCLE is the current time cycle, READ/WRITE is dependent on the operation executed, NAME is the HW register's name, and DATA is the data written/ read 
   |
-|  **cycles.txt** | output  | contains two lines, one with the overall time cycles taken to simulate the program and the second with the overall machine instructions excecuted  |
+|  **cycles.txt** | output  | contains two lines, one with the overall time cycles taken to simulate the program and the second with the overall machine instructions executed  |
 | **monitor.txt**  |  output |  contains the pixel values at the end of the simulation on the screen. each row contains a single pixel's value represented with two hex digits. The screen's overview is top-down, left-right. |
 |  **diskout.txt** | output  |  contains the disk's data at the end of the simulation |
 
@@ -165,14 +164,14 @@ trace.txt hwregtrace.txt cycles.txt leds.txt monitor.txt monitor.yuv diskout.txt
 ## ASSEMBLY CODE
 As mentioned, the assembler program translates assembly file to machine language instructions. data can be stored into memory using the '.word (address) (data)' special command
 
-Each assembly line of code must contain all of the 5 parameters seperated by commas, for example:
+Each assembly line of code must contain all of the 5 parameters separated by commas, for example:
 ```asm
 add $t2, $t1, $t0, 0   # $t2 = $t1 + $t0
 add $t1, $t1, $imm, 2  # $t1 = $t1 + 2
 add $t1, $imm, $imm, 2 # $t1 = 2 + 2
 ```
 
-In addition, the assembly files can contain LABELS. As in MIPS, A label can be placed at the beginning of a statement and can be assigned the current value of the active location counter and be served as an instruction operand. The following examplifies proper usage of Labels:
+In addition, the assembly files can contain LABELS. As in MIPS, A label can be placed at the beginning of a statement and can be assigned the current value of the active location counter and be served as an instruction operand. The following exemplifies proper usage of Labels:
 ```asm
 >bne $imm, $t0, $t1, L1      # if ($t0 != $t1) goto L1 (reg1 = address of L1)
 >add $t2, $t2, $imm, 1       # $t2 = $t2 + 1 (reg1 = 1)
